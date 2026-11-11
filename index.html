@@ -227,7 +227,7 @@
             <!-- FORM: posts to the Google Apps Script web app set in window.AC_ENQUIRY_WEBHOOK (bottom of this file).
                  The script saves the enquiry to Google Sheets, emails you, and auto-replies to the visitor (wording is in apps-script/Code.gs).
                  Without JavaScript the form falls back to a normal post to the same address. -->
-            <form id="enquiry-form" action="https://script.google.com/macros/s/AKfycbx1bSSyhMuL7xVro9N25zh_py1n2TOTEfaodXi7SJp5LUeAqCmkVviprv999Z9o3M6R6Q/exec" method="POST" class="grid gap-5 sm:grid-cols-2">
+            <form id="enquiry-form" action="https://script.google.com/macros/s/AKfycbyK6mMWjWb--yrTdUAB6h4DxyjIWo1lWD5dM3tygZCyAhRqvoxXFgnnURf2nw00vRLP/exec" method="POST" class="grid gap-5 sm:grid-cols-2">
               <!-- Spam protection: hidden honeypot field (bots fill it in, people never see it) + a minimum-time check in js/main.js -->
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
 
@@ -256,10 +256,10 @@
               <div class="thanks-icon mx-auto" aria-hidden="true">
                 <svg viewBox="0 0 52 52" width="84" height="84" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="26" r="24" stroke="var(--blue)"/><path d="M15 27l8 8 14-16" stroke="var(--ink)"/></svg>
               </div>
-              <h3 class="h-display mt-6 text-2xl font-bold sm:text-3xl">Thank you<span id="thanks-name"></span>!</h3>
-              <p class="mx-auto mt-3 max-w-md text-base leading-relaxed text-muted-foreground">Your consultation request has been sent. We’ll get back to you shortly.</p>
-              <p id="thanks-email" class="mx-auto mt-2 max-w-md text-sm text-muted-foreground" hidden></p>
-              <button type="button" id="thanks-again" class="mt-7 rounded-full border border-input bg-white px-6 py-3 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:shadow-md">Send another message</button>
+              <h3 class="h-display mt-6 text-2xl font-bold sm:text-3xl">Thanks<span id="thanks-name"></span>. We got it.</h3>
+              <p id="thanks-email" class="mx-auto mt-3 max-w-md text-base leading-relaxed text-muted-foreground" hidden></p>
+              <p class="mx-auto mt-2 max-w-md text-base leading-relaxed text-muted-foreground">We will reply within one business day.</p>
+              <button type="button" id="thanks-again" class="mt-7 rounded-full border border-input bg-white px-6 py-3 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:shadow-md">Send another inquiry</button>
             </div>
           </div>
 

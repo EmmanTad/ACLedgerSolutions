@@ -144,7 +144,12 @@
   function showThanks(p) {
     var first = (p.name || "").split(/\s+/)[0];
     thanksName.textContent = first ? ", " + first : "";
-    if (p.email) { thanksEmail.textContent = "A confirmation is on its way to " + p.email + "."; thanksEmail.hidden = false; }
+    if (p.email) {
+      thanksEmail.textContent = "We sent a confirmation to ";
+      var strong = document.createElement("strong"); strong.textContent = p.email;
+      thanksEmail.appendChild(strong); thanksEmail.appendChild(document.createTextNode("."));
+      thanksEmail.hidden = false;
+    }
     else thanksEmail.hidden = true;
     statusEl.hidden = true;
     form.reset();
@@ -175,9 +180,16 @@
     var label = btn.textContent;
     btn.disabled = true; btn.textContent = "Sending…";
     statusEl.hidden = true;
-    // no-cors: Apps Script replies cannot be read from a browser, but the request is delivered
-    fetch(endpoint, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
-      .then(function () { showThanks(payload); })
+    // text/plain keeps this a "simple" request, so the browser lets us read Apps Script's answer and we only
+    // show the thank-you once the sheet row has really been saved.
+    fetch(endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) })
+      .then(function (r) {
+        return r.json().catch(function () { throw new Error("Unreadable answer: set the web app access to Anyone and redeploy"); });
+      })
+      .then(function (d) {
+        if (d && d.ok) return showThanks(payload);
+        throw new Error((d && d.error) || "not saved");
+      })
       .catch(function (err) {
         console.error("Form error:", err);
         say("Sorry, we could not send your request. Please try again, or contact us at charles@acledgers.com or (773) 698-3538.", false);

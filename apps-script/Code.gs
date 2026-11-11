@@ -10,6 +10,9 @@ const CFG = {
   PHONE: '(773) 698-3538',
   WEBSITE: 'www.acledgers.com',
   SHEET_NAME: 'AC Ledger Enquiries',
+  // Leave blank if you created this script from the sheet (Extensions > Apps Script).
+  // If the script is a standalone project, paste the sheet ID here (the long text between /d/ and /edit in the sheet URL).
+  SPREADSHEET_ID: '',
   // Optional SMS alert to the owner via Semaphore (leave blank to skip)
   SEMAPHORE_KEY: '',
   OWNER_PHONE: '',                          // e.g. 09171234567
@@ -17,7 +20,7 @@ const CFG = {
   TOKEN: ''
 };
 
-const HEADERS = ['Time Received', 'Full name', 'Email', 'Phone', 'Service you\u2019re interested in', 'How can we help?', 'Status', 'Notes'];
+const HEADERS = ['Time Received', 'Full name', 'Email', 'Phone', 'Service you\u2019re interested in', 'How can we help?', 'Notes'];
 
 // ---- Webhook endpoint (deploy as Web app) ----
 function doPost(e) {
@@ -29,7 +32,7 @@ function doPost(e) {
     const lead = {
       name: clean_(d.name, 100), email: clean_(d.email, 150).toLowerCase(),
       phone: clean_(d.phone, 30), service: clean_(d.service, 100),
-      message: clean_(d.message, 2000), page: clean_(d.page, 300)
+      message: clean_(d.message, 2000)
     };
     if (!lead.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email))
       return json_({ ok: false, error: 'Name and a valid email are required' });
@@ -44,44 +47,62 @@ function doPost(e) {
     return json_({ ok: true });
   } catch (err) {
     console.error(err);
-    return json_({ ok: false, error: 'Server error' });
+    return json_({ ok: false, error: 'Server error: ' + (err && err.message || err) });
   }
 }
 
 function doGet() { return json_({ ok: true, service: 'ac-ledger-enquiries' }); }   // quick health check
 
 // ---- Steps ----
+function ss_() {
+  const ss = CFG.SPREADSHEET_ID ? SpreadsheetApp.openById(CFG.SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) throw new Error('No spreadsheet: set CFG.SPREADSHEET_ID (this script is not attached to a sheet)');
+  return ss;
+}
+
 function saveLead_(l) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(CFG.SHEET_NAME) || ss.insertSheet(CFG.SHEET_NAME);
+  const sh = ss_().getSheetByName(CFG.SHEET_NAME) || ss_().insertSheet(CFG.SHEET_NAME);
   if (sh.getLastRow() === 0) {
     sh.appendRow(HEADERS);
     sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground(CFG.BRAND_COLOR).setFontColor('#ffffff');
     sh.setFrozenRows(1);
     sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
-    sh.getRange('F:F').setWrap(true);
-    sh.setColumnWidth(6, 420);
-    sh.getRange('H2:H').setDataValidation(
+    const msgCol = HEADERS.indexOf('How can we help?') + 1, statusCol = HEADERS.indexOf('Status') + 1;
+    if (msgCol) { sh.getRange(1, msgCol, sh.getMaxRows(), 1).setWrap(true); sh.setColumnWidth(msgCol, 420); }
+    if (statusCol) sh.getRange(2, statusCol, sh.getMaxRows() - 1, 1).setDataValidation(
       SpreadsheetApp.newDataValidation().requireValueInList(['New', 'Contacted', 'Quoted', 'Won', 'Closed'], true).build());
   }
-  sh.appendRow([new Date(), l.name, l.email, "'" + l.phone, l.service, l.message, l.page, 'New', '']);
+  // Fill each cell by its header name, so renaming, removing or reordering columns never shifts the data
+  const heads = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0];
+  sh.appendRow(heads.map(h => valueFor_(String(h), l)));
+}
+
+function valueFor_(h, l) {
+  h = h.trim().toLowerCase();
+  if (h === 'received' || h === 'time received') return new Date();
+  if (h === 'name' || h === 'full name') return l.name;
+  if (h === 'email') return l.email;
+  if (h === 'phone') return l.phone ? "'" + l.phone : '';
+  if (h.indexOf('service') === 0) return l.service;
+  if (h === 'message' || h === 'how can we help?') return l.message;
+  if (h === 'status') return 'New';
+  return '';
 }
 
 function alertOwner_(l) {
-  const url = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  const url = ss_().getUrl();
   MailApp.sendEmail({
     to: CFG.OWNER_EMAIL,
     replyTo: l.email,                                   // hit Reply to answer the visitor directly
     name: CFG.BUSINESS + ' website',
     subject: 'New consultation request: ' + l.name,
-    body: `${l.name}\n${l.email}\n${l.phone}\nService: ${l.service}\n\n${l.message}\n\nFrom: ${l.page}\nAll enquiries: ${url}`,
+    body: `${l.name}\n${l.email}\n${l.phone}\nService: ${l.service}\n\n${l.message}\n\n`,
     htmlBody: emailShell_('New consultation request', `
       <p style="margin:0 0 16px;font-size:20px;font-weight:700">${esc_(l.name)}</p>
       <table style="width:100%;font-size:15px;border-collapse:collapse">
         <tr><td style="padding:6px 0;color:#667">Email</td><td><a href="mailto:${esc_(l.email)}">${esc_(l.email)}</a></td></tr>
         <tr><td style="padding:6px 0;color:#667">Phone</td><td>${esc_(l.phone) || '-'}</td></tr>
         <tr><td style="padding:6px 0;color:#667">Service</td><td>${esc_(l.service) || '-'}</td></tr>
-        <tr><td style="padding:6px 0;color:#667">Page</td><td>${esc_(l.page) || '-'}</td></tr>
       </table>
       <p style="margin:16px 0 6px;color:#667;font-size:13px">Message</p>
       <div style="background:#f3f4f8;border-radius:8px;padding:14px;white-space:pre-wrap">${esc_(l.message)}</div>
@@ -141,5 +162,5 @@ function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).se
 function testLead() {
   doPost({ postData: { contents: JSON.stringify({
     name: 'Test Customer', email: CFG.OWNER_EMAIL, phone: '7735550123', service: 'Tax Preparation',
-    message: 'This is a test enquiry.', page: 'manual test' }) } });
+    message: 'This is a test enquiry.' }) } });
 }
