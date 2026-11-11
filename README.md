@@ -22,3 +22,8 @@ Navy/gray values are at the top of the `<style type="text/tailwindcss">` block i
 
 ## Three.js backgrounds
 `js/three-scenes.js` adds animated 3D backgrounds to the Home (wireframe shapes) and About (team network — each team photo is a node; hovering a photo lights it up) sections. Three.js loads from the jsDelivr CDN (pinned r160). If it cannot load, the site still works without the 3D layer. Animations pause off-screen and are static for visitors who prefer reduced motion.
+
+## Animations & responsive layout
+- Every block fades/slides in on scroll via `data-reveal` (variants: default up, `left`, `right`, `zoom`, `fade`; stagger with `style="--d:80ms"`). Styles are at the end of `css/styles.css`.
+- Layout is tuned for phone (<640px), tablet (640-1023px), desktop (1024px+) and large screens (1536px+). Animations switch off for visitors who prefer reduced motion.
+- After a successful send, the form is replaced by an animated thank-you message (`#form-thanks` in `index.html`; wording is editable there).

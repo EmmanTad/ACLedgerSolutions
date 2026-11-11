@@ -41,6 +41,12 @@
   } else {
     items.forEach(function (el) { el.classList.add("is-visible"); });
   }
+  // Safety net: at the very bottom of the page, make sure nothing is left hidden (e.g. the footer)
+  window.addEventListener("scroll", function () {
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      items.forEach(function (el) { el.classList.add("is-visible"); });
+    }
+  }, { passive: true });
 
 })();
 
@@ -110,7 +116,7 @@
   run();
 })();
 
-// ===== Contact form: sends in the page (no redirect) + optional Excel log =====
+// ===== Contact form: sends in the page (no redirect), shows a thank-you message, optional Excel log =====
 (function () {
   var form = document.getElementById("enquiry-form");
   if (!form) return;
@@ -118,7 +124,13 @@
   var endpoint = (form.getAttribute("action") || "").replace("formsubmit.co/", "formsubmit.co/ajax/");
   var statusEl = document.getElementById("form-status");
   var btn = form.querySelector('button[type="submit"]');
+  var card = document.getElementById("form-card");
+  var thanks = document.getElementById("form-thanks");
+  var thanksName = document.getElementById("thanks-name");
+  var thanksEmail = document.getElementById("thanks-email");
+  var again = document.getElementById("thanks-again");
   var loaded = Date.now();
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function say(msg, ok) {
     statusEl.textContent = msg;
@@ -126,6 +138,28 @@
       (ok ? "bg-primary text-primary-foreground" : "border border-red-200 bg-red-50 text-red-800");
     statusEl.hidden = false;
   }
+
+  // Replace the form with the animated thank-you message
+  function showThanks(p) {
+    var first = (p.name || "").split(/\s+/)[0];
+    thanksName.textContent = first ? ", " + first : "";
+    if (p.email) { thanksEmail.textContent = "A confirmation is on its way to " + p.email + "."; thanksEmail.hidden = false; }
+    else thanksEmail.hidden = true;
+    statusEl.hidden = true;
+    form.reset();
+    form.hidden = true;
+    thanks.hidden = false;
+    try { thanks.focus({ preventScroll: true }); } catch (e) { thanks.focus(); }
+    if (card && card.scrollIntoView) card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  }
+
+  // "Send another message" brings the form back
+  if (again) again.addEventListener("click", function () {
+    thanks.hidden = true;
+    form.hidden = false;
+    loaded = Date.now();
+    var first = form.querySelector("#name"); if (first) first.focus();
+  });
 
   // Optional: copy of each enquiry to a Power Automate flow -> SharePoint Excel (see docs/SETUP-ENQUIRIES.md)
   function logEnquiry(p) {
@@ -143,11 +177,12 @@
     var payload = {};
     new FormData(form).forEach(function (v, k) { payload[k] = typeof v === "string" ? v.trim() : v; });
     if (payload._honey || Date.now() - loaded < 3000) {  // bot: pretend it worked, send nothing
-      say("Thank you! We have received your request and will get back to you shortly.", true); form.reset(); return;
+      showThanks(payload); return;
     }
     delete payload._honey;
     var label = btn.textContent;
     btn.disabled = true; btn.textContent = "Sending…";
+    statusEl.hidden = true;
     fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -158,8 +193,7 @@
       });
     }).then(function () {
       logEnquiry(payload);
-      say("Thank you! We have received your request and sent a confirmation to your email. We will get back to you shortly.", true);
-      form.reset();
+      showThanks(payload);
     }).catch(function () {
       say("Sorry, we could not send your request. Please try again, or contact us at charles@acledgers.com or (773) 698-3538.", false);
     }).then(function () {

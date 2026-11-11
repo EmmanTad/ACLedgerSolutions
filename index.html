@@ -59,6 +59,7 @@
     @utility link-underline { &:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; } }
   </style>
   <link rel="stylesheet" href="css/styles.css">
+  <noscript><style>[data-reveal],.fx{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 <div class="flex min-h-screen flex-col bg-background">
@@ -66,9 +67,9 @@
   <!-- ============ HEADER / MENU ============ -->
   <header id="site-header" class="sticky top-0 z-50 border-b border-white/10 bg-primary text-primary-foreground transition-shadow duration-300">
     <div class="container-site flex items-center justify-between gap-6 py-3">
-      <a href="#home" class="flex items-center gap-3">
-        <img src="assets/logo-mark.png" alt="AC Ledger Solutions logo" class="h-9 w-auto">
-        <span class="font-display text-lg font-bold leading-tight tracking-wide">AC Ledger Solutions</span>
+      <a href="#home" class="flex min-w-0 items-center gap-3">
+        <img src="assets/logo-mark.png" alt="AC Ledger Solutions logo" class="h-9 w-auto shrink-0">
+        <span class="font-display text-base font-bold leading-tight tracking-wide sm:text-lg">AC Ledger Solutions</span>
       </a>
       <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
         <a href="#home" class="text-sm font-medium link-underline">Home</a>
@@ -76,7 +77,7 @@
         <a href="#services" class="text-sm font-medium link-underline">Services</a>
         <a href="#contact" class="text-sm font-medium link-underline">Contact</a>
       </nav>
-      <button type="button" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" class="flex h-10 w-10 items-center justify-center rounded-lg border border-white/30 md:hidden">
+      <button type="button" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/30 md:hidden">
         <svg data-icon-open width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg data-icon-close class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
@@ -84,10 +85,10 @@
     <div id="mobile-menu" class="grid grid-rows-[0fr] border-t border-transparent bg-primary transition-all duration-300 md:hidden">
       <div class="overflow-hidden">
         <nav class="container-site flex flex-col gap-1 py-4" aria-label="Mobile">
-          <a href="#home" class="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-white/10">Home</a>
-          <a href="#about" class="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-white/10">About Us</a>
-          <a href="#services" class="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-white/10">Services</a>
-          <a href="#contact" class="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-white/10">Contact</a>
+          <a href="#home" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Home</a>
+          <a href="#about" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">About Us</a>
+          <a href="#services" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Services</a>
+          <a href="#contact" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Contact</a>
         </nav>
       </div>
     </div>
@@ -120,12 +121,12 @@
         </svg>
         <h1 class="ac-title" aria-label="AC LEDGER SOLUTIONS">AC LEDGER SOLUTIONS</h1>
         <span class="ac-line"></span>
-        <p class="ac-svc">Bookkeeping &nbsp;•&nbsp; Tax Preparation &nbsp;•&nbsp; Payroll Processing &nbsp;•&nbsp; Financial Reports<br>Cleanup Projects &nbsp;•&nbsp; QuickBooks Setup &amp; Training &nbsp;•&nbsp; Inventory Count Support &nbsp;•&nbsp; Notarial Services</p>
+        <p class="ac-svc"><span class="ac-row"><span class="ac-i">Bookkeeping</span><span class="ac-i">Tax Preparation</span><span class="ac-i">Payroll Processing</span><span class="ac-i">Financial Reports</span></span><span class="ac-row"><span class="ac-i">Cleanup Projects</span><span class="ac-i">QuickBooks Setup &amp; Training</span><span class="ac-i">Inventory Count Support</span><span class="ac-i">Notarial Services</span></span></p>
       </div>
       <div class="ac-intro max-w-xl">
         <!-- INTRO PARAGRAPH: replace with your final intro text -->
         <p class="text-lg leading-relaxed text-white/80">[Short intro paragraph goes here.] We keep your books accurate and your taxes on time, so you can focus on running your business.</p>
-        <a href="#contact" class="mt-7 inline-block rounded-full bg-blue px-7 py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:brightness-110">Request a Consultation</a>
+        <a href="#contact" class="cta-pulse mt-7 inline-block rounded-full bg-blue px-7 py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:brightness-110">Request a Consultation</a>
       </div>
     </section>
 
@@ -133,27 +134,27 @@
     <section id="about" class="three-host bg-secondary py-16 md:py-20">
       <div class="container-site">
         <div class="mx-auto max-w-2xl text-center">
-          <p class="eyebrow">About Us</p>
+          <p class="eyebrow" data-reveal>About Us</p>
           <h2 class="h-display mt-2 text-3xl font-bold md:text-4xl" data-reveal>A family-run business</h2>
-          <p class="mt-4 text-lg text-muted-foreground">AC Ledger Solutions is a family-run business.</p>
+          <p class="mt-4 text-lg text-muted-foreground" data-reveal style="--d:120ms">AC Ledger Solutions is a family-run business.</p>
         </div>
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal style="--d:0ms">
+          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal="zoom" style="--d:0ms">
             <img src="assets/team-1.jpg" alt="Team member 1" width="400" height="400" loading="lazy" class="team-photo mx-auto h-32 w-32 rounded-full object-cover">
             <h3 class="mt-4 font-display text-lg font-bold text-ink">Team Member Name</h3>
             <p class="mt-1 text-sm text-muted-foreground">Title</p>
           </div>
-          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal style="--d:80ms">
+          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal="zoom" style="--d:80ms">
             <img src="assets/team-2.jpg" alt="Team member 2" width="400" height="400" loading="lazy" class="team-photo mx-auto h-32 w-32 rounded-full object-cover">
             <h3 class="mt-4 font-display text-lg font-bold text-ink">Team Member Name</h3>
             <p class="mt-1 text-sm text-muted-foreground">Title</p>
           </div>
-          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal style="--d:160ms">
+          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal="zoom" style="--d:160ms">
             <img src="assets/team-3.jpg" alt="Team member 3" width="400" height="400" loading="lazy" class="team-photo mx-auto h-32 w-32 rounded-full object-cover">
             <h3 class="mt-4 font-display text-lg font-bold text-ink">Team Member Name</h3>
             <p class="mt-1 text-sm text-muted-foreground">Title</p>
           </div>
-          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal style="--d:240ms">
+          <div class="team-card rounded-xl border border-border bg-white/75 p-6 text-center shadow-sm backdrop-blur-sm" data-reveal="zoom" style="--d:240ms">
             <img src="assets/team-4.jpg" alt="Team member 4" width="400" height="400" loading="lazy" class="team-photo mx-auto h-32 w-32 rounded-full object-cover">
             <h3 class="mt-4 font-display text-lg font-bold text-ink">Team Member Name</h3>
             <p class="mt-1 text-sm text-muted-foreground">Title</p>
@@ -166,44 +167,44 @@
     <section id="services" class="bg-primary py-16 text-primary-foreground md:py-20">
       <div class="container-site">
         <div class="max-w-2xl">
-          <p class="eyebrow text-white/60!">Services</p>
+          <p class="eyebrow text-white/60!" data-reveal>Services</p>
           <h2 class="h-display mt-2 text-3xl font-bold text-white! md:text-4xl" data-reveal>How we can help</h2>
           <p class="mt-4 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg" data-reveal style="--d:80ms">From everyday bookkeeping to tax season, payroll and QuickBooks training, AC Ledger Solutions gives small businesses and individuals dependable financial support in one place. Choose the service you need, or contact us and we will help you find the right fit.</p>
         </div>
         <!-- Six service blocks. Edit the title/description text; keep the "Contact us for a quote" link. No prices. -->
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:0ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">Bookkeeping &amp; Cleanup Projects</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Ongoing bookkeeping to keep your records current, plus cleanup of past records so you can get back on track.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:80ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2zM14 2v6h6M16 13H8M16 17H8"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2zM14 2v6h6M16 13H8M16 17H8"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">Tax Preparation</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Preparation and filing of individual and business tax returns, done accurately and on time.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:160ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">Payroll Processing</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Payroll processing and payroll tax support for your employees.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:0ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-6"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-6"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">Financial Reports</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Clear financial reports that show how your business is really doing.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:80ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM4 10h16M9 5v14"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM4 10h16M9 5v14"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">QuickBooks Setup &amp; Training</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">QuickBooks set up the right way, with training so you and your team feel confident using it.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:160ms">
-            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">Inventory Count &amp; Notarial Services</h3>
             <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Inventory count support for your business, and notary services when you need a document notarized.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
@@ -215,13 +216,13 @@
     <!-- ============ CONTACT ============ -->
     <section id="contact" class="border-t border-border bg-secondary py-16 md:py-20">
       <div class="container-site">
-        <div class="max-w-2xl">
-          <p class="eyebrow">Contact</p>
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="eyebrow" data-reveal>Contact</p>
           <h2 class="h-display mt-2 text-3xl font-bold md:text-4xl" data-reveal>Request a consultation</h2>
         </div>
         <div class="mt-10">
 
-          <div class="max-w-3xl rounded-2xl border border-border bg-white/85 p-6 shadow-sm backdrop-blur-sm md:p-8">
+          <div id="form-card" data-reveal class="mx-auto max-w-3xl rounded-2xl border border-border bg-white/85 p-5 shadow-sm backdrop-blur-sm sm:p-6 md:p-8">
             <!-- FORM: RECIPIENT = the email address in the action URL below (change it there only). Sends straight from the page (no redirect) via FormSubmit AJAX, and emails the visitor an auto-reply.
                  The FIRST submission triggers an activation email to kgdevstudio@gmail.com — click the link in it once.
                  Without JavaScript the form falls back to a normal FormSubmit post (action below). -->
@@ -234,25 +235,36 @@
               <!-- Spam protection: hidden honeypot field (bots fill it in, people never see it) + a minimum-time check in js/main.js -->
               <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
 
-              <div class="grid gap-2"><label for="name" class="text-sm font-medium">Full name</label>
+              <div class="fx grid gap-2" style="--i:0"><label for="name" class="text-sm font-medium">Full name</label>
                 <input id="name" name="name" required maxlength="100" class="h-10 w-full rounded-md border border-input bg-transparent px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"></div>
-              <div class="grid gap-2"><label for="email" class="text-sm font-medium">Email</label>
+              <div class="fx grid gap-2" style="--i:1"><label for="email" class="text-sm font-medium">Email</label>
                 <input id="email" name="email" type="email" required maxlength="255" class="h-10 w-full rounded-md border border-input bg-transparent px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"></div>
-              <div class="grid gap-2"><label for="phone" class="text-sm font-medium">Phone</label>
+              <div class="fx grid gap-2" style="--i:2"><label for="phone" class="text-sm font-medium">Phone</label>
                 <input id="phone" name="phone" type="tel" maxlength="30" class="h-10 w-full rounded-md border border-input bg-transparent px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"></div>
-              <div class="grid gap-2"><label for="service" class="text-sm font-medium">Service you’re interested in</label>
+              <div class="fx grid gap-2" style="--i:3"><label for="service" class="text-sm font-medium">Service you’re interested in</label>
                 <select id="service" name="service" class="h-10 rounded-md border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                   <option value="">Choose one</option>
                   <option>Bookkeeping &amp; Cleanup Projects</option><option>Tax Preparation</option><option>Payroll Processing</option><option>Financial Reports</option><option>QuickBooks Setup &amp; Training</option><option>Inventory Count &amp; Notarial Services</option><option>Not sure yet</option>
                 </select></div>
-              <div class="grid gap-2 sm:col-span-2"><label for="message" class="text-sm font-medium">How can we help?</label>
+              <div class="fx grid gap-2 sm:col-span-2" style="--i:4"><label for="message" class="text-sm font-medium">How can we help?</label>
                 <textarea id="message" name="message" rows="5" required maxlength="2000" class="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"></textarea></div>
-              <p class="rounded-lg bg-secondary px-4 py-3 text-sm text-muted-foreground sm:col-span-2">
+              <p class="fx rounded-lg bg-secondary px-4 py-3 text-sm text-muted-foreground sm:col-span-2" style="--i:5">
                 <strong class="text-ink">Please do not send sensitive financial information</strong> (such as Social Security numbers, bank account numbers, or tax documents) through this form. We will arrange a secure way to share documents after we connect.
               </p>
               <p id="form-status" role="status" aria-live="polite" hidden class="sm:col-span-2"></p>
-              <div class="sm:col-span-2"><button type="submit" class="rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-md">Request a Consultation</button></div>
+              <div class="fx sm:col-span-2" style="--i:6"><button type="submit" class="w-full rounded-full bg-primary px-7 py-3.5 text-sm sm:w-auto font-semibold text-primary-foreground transition-all hover:-translate-y-0.5 hover:shadow-md">Request a Consultation</button></div>
             </form>
+
+            <!-- THANK-YOU MESSAGE: shown in place of the form after a successful send (see js/main.js). Edit the wording here. -->
+            <div id="form-thanks" hidden tabindex="-1" role="status" aria-live="polite" class="thanks py-6 text-center sm:py-10">
+              <div class="thanks-icon mx-auto" aria-hidden="true">
+                <svg viewBox="0 0 52 52" width="84" height="84" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="26" r="24" stroke="var(--blue)"/><path d="M15 27l8 8 14-16" stroke="var(--ink)"/></svg>
+              </div>
+              <h3 class="h-display mt-6 text-2xl font-bold sm:text-3xl">Thank you<span id="thanks-name"></span>!</h3>
+              <p class="mx-auto mt-3 max-w-md text-base leading-relaxed text-muted-foreground">Your consultation request has been sent. We’ll get back to you shortly.</p>
+              <p id="thanks-email" class="mx-auto mt-2 max-w-md text-sm text-muted-foreground" hidden></p>
+              <button type="button" id="thanks-again" class="mt-7 rounded-full border border-input bg-white px-6 py-3 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:shadow-md">Send another message</button>
+            </div>
           </div>
 
         </div>
@@ -264,7 +276,7 @@
     <div class="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
 
       <!-- Brand -->
-      <div>
+      <div data-reveal>
         <a href="#home" class="flex items-center gap-3">
           <span class="flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-primary ring-1 ring-white/20"><img src="assets/logo-mark.png" alt="AC Ledger Solutions logo" class="h-7 w-auto"></span>
           <span class="font-bold leading-tight text-white" style="font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;letter-spacing:.02em">AC Ledger Solutions</span>
@@ -273,9 +285,9 @@
       </div>
 
       <!-- Services -->
-      <div>
+      <div data-reveal style="--d:90ms">
         <h4 class="text-sm font-bold uppercase tracking-[.12em] text-white">Services</h4>
-        <ul class="mt-5 space-y-3 text-[15px]">
+        <ul class="footer-links mt-5 space-y-3 text-[15px]">
           <li><a href="#services" class="transition-colors hover:text-white link-underline">Bookkeeping &amp; Cleanup Projects</a></li>
           <li><a href="#services" class="transition-colors hover:text-white link-underline">Tax Preparation</a></li>
           <li><a href="#services" class="transition-colors hover:text-white link-underline">Payroll Processing</a></li>
@@ -286,9 +298,9 @@
       </div>
 
       <!-- Company -->
-      <div>
+      <div data-reveal style="--d:180ms">
         <h4 class="text-sm font-bold uppercase tracking-[.12em] text-white">Company</h4>
-        <ul class="mt-5 space-y-3 text-[15px]">
+        <ul class="footer-links mt-5 space-y-3 text-[15px]">
           <li><a href="#home" class="transition-colors hover:text-white link-underline">Home</a></li>
           <li><a href="#about" class="transition-colors hover:text-white link-underline">About Us</a></li>
           <li><a href="#services" class="transition-colors hover:text-white link-underline">Services</a></li>
@@ -297,7 +309,7 @@
       </div>
 
       <!-- Get in touch -->
-      <div>
+      <div data-reveal style="--d:270ms">
         <h4 class="text-sm font-bold uppercase tracking-[.12em] text-white">Get in touch</h4>
         <ul class="mt-5 space-y-3.5 text-[15px]">
           <li class="flex gap-3"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-[#a5a9b6]"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>AC Ledger Solutions LLC, Melrose Park, Illinois</span></li>
@@ -311,7 +323,7 @@
 
     <!-- Bottom bar -->
     <div class="border-t border-white/10 bg-[#161a38]/70">
-      <div class="container-site flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+      <div data-reveal="fade" class="container-site flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-8">
         <p class="shrink-0">© 2026 AC Ledger Solutions LLC. All rights reserved.</p>
         <p class="sm:text-right">Information on this site is for general guidance only and is not a substitute for professional advice on your specific situation.</p>
       </div>

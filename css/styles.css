@@ -75,3 +75,94 @@ img { transition: transform .8s ease; }
 .team-card h3{transition:color .3s ease}
 .team-card:hover h3{color:var(--blue)}
 @media (prefers-reduced-motion:reduce){.team-photo,.team-card{transition:none!important}.team-card:hover .team-photo{transform:none}.team-card.is-visible:hover{transform:none}}
+
+/* =====================================================================
+   ANIMATION — every block animates in (scroll reveal variants)
+   ===================================================================== */
+[hidden] { display: none !important; }
+[data-reveal="left"]  { transform: translateX(-40px); }
+[data-reveal="right"] { transform: translateX(40px); }
+[data-reveal="zoom"]  { transform: translateY(18px) scale(.92); }
+[data-reveal="fade"]  { transform: none; }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* animated accent bar under every section heading */
+h2.h-display::after { content: ""; display: block; height: 3px; width: 0; margin-top: .7rem; border-radius: 2px; background: var(--blue); transition: width .8s cubic-bezier(.2,.7,.2,1) .35s; }
+h2.h-display.is-visible::after { width: 3.5rem; }
+.text-center > h2.h-display::after { margin-inline: auto; }
+
+/* service icons pop in, then tilt on hover */
+.svc-icon { transition: transform .4s cubic-bezier(.3,1.6,.5,1); }
+.is-visible > .svc-icon { animation: icon-pop .7s cubic-bezier(.3,1.6,.5,1) .25s backwards; }
+@keyframes icon-pop { from { opacity: 0; transform: scale(.3) rotate(-25deg); } to { opacity: 1; transform: none; } }
+@media (hover: hover) { .card-hover:hover .svc-icon { transform: rotate(-8deg) scale(1.1); } }
+
+/* contact form fields rise one after another once the card is visible */
+.fx { opacity: 0; }
+[data-reveal].is-visible .fx { animation: fade-up .6s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--i, 0) * 70ms + 200ms); }
+
+/* gentle attention pulse on the hero button */
+.cta-pulse { animation: cta-pulse 2.8s ease-out 5.5s infinite; }
+@keyframes cta-pulse { 0% { box-shadow: 0 0 0 0 rgb(90 127 230 / .55); } 70%, 100% { box-shadow: 0 0 0 16px rgb(90 127 230 / 0); } }
+
+/* inputs: soft glow on focus */
+#enquiry-form input, #enquiry-form select, #enquiry-form textarea { transition: border-color .2s ease, box-shadow .2s ease; }
+#enquiry-form input:focus, #enquiry-form select:focus, #enquiry-form textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgb(90 127 230 / .18); }
+
+/* =====================================================================
+   THANK-YOU MESSAGE (shown after the form is sent)
+   ===================================================================== */
+.thanks:focus { outline: none; }
+.thanks > * { opacity: 0; animation: fade-up .6s cubic-bezier(.2,.7,.2,1) forwards; }
+.thanks > :nth-child(1) { animation-delay: .05s; }
+.thanks > :nth-child(2) { animation-delay: .9s; }
+.thanks > :nth-child(3) { animation-delay: 1.05s; }
+.thanks > :nth-child(4) { animation-delay: 1.15s; }
+.thanks > :nth-child(5) { animation-delay: 1.3s; }
+.thanks-icon { position: relative; width: 84px; height: 84px; }
+.thanks-icon::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: rgb(90 127 230 / .22); animation: thanks-ring 1.6s ease-out .5s 2 both; }
+.thanks-icon svg { position: relative; display: block; }
+.thanks-icon circle { stroke-dasharray: 152; stroke-dashoffset: 152; animation: thanks-draw .7s ease .15s forwards; }
+.thanks-icon path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: thanks-draw .45s ease .75s forwards; }
+@keyframes thanks-draw { to { stroke-dashoffset: 0; } }
+@keyframes thanks-ring { from { transform: scale(.6); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
+
+/* =====================================================================
+   RESPONSIVE — phone (<640), tablet (640–1023), desktop (1024+), large (1536+)
+   ===================================================================== */
+.container-site { padding-left: max(1.5rem, env(safe-area-inset-left, 0px)); padding-right: max(1.5rem, env(safe-area-inset-right, 0px)); }
+@media (min-width: 768px) { .container-site { padding-inline: max(2rem, env(safe-area-inset-left, 0px)) max(2rem, env(safe-area-inset-right, 0px)); } }
+@media (min-width: 1536px) { .container-site { max-width: 80rem; } }
+
+/* hero service list: one line per row on tablet/desktop, tidy chips on phones */
+.ac-row { display: block; }
+.ac-i { display: inline-block; white-space: nowrap; }
+.ac-i:not(:last-child)::after { content: "•"; margin: 0 .9em; }
+@media (max-width: 639px) {
+  .ac-svc { line-height: 1.4; max-width: 22rem; }
+  .ac-row { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem .45rem; }
+  .ac-row + .ac-row { margin-top: .4rem; }
+  .ac-i { font-size: 12px; padding: .28rem .75rem; border: 1px solid rgb(255 255 255 / .18); border-radius: 999px; background: rgb(255 255 255 / .05); }
+  .ac-i:not(:last-child)::after { display: none; }
+}
+
+/* phones: comfortable tap targets, no iOS zoom-on-focus, full-width button */
+@media (max-width: 767px) {
+  #enquiry-form input, #enquiry-form select, #enquiry-form textarea { font-size: 16px; }
+  #enquiry-form input:not([type="hidden"]), #enquiry-form select { min-height: 2.75rem; }
+  .footer-links a { display: inline-block; padding-block: .15rem; }
+}
+@media (max-width: 380px) { #site-header .font-display { font-size: .95rem; } }
+
+/* landscape phones: don't force a full-height hero */
+@media (max-height: 520px) and (orientation: landscape) { #home { min-height: auto; } }
+
+/* touch devices: no sticky hover lift */
+@media (hover: none) { .card-hover:hover { transform: none; box-shadow: none; } .team-card.is-visible:hover { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .fx, .thanks > * { opacity: 1 !important; animation: none !important; }
+  .thanks-icon circle, .thanks-icon path { stroke-dashoffset: 0 !important; animation: none !important; }
+  .thanks-icon::before, .cta-pulse { animation: none !important; }
+  h2.h-display::after { width: 3.5rem; transition: none; }
+}
