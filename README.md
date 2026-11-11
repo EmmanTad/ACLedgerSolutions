@@ -13,7 +13,8 @@ Plain HTML/CSS/JS with Tailwind from CDN — no build step. Upload the folder to
 
 ## Contact form (Google Sheet + email alert + auto-reply)
 The form posts to a Google Apps Script web app (`apps-script/Code.gs`, setup in `docs/SETUP-GOOGLE-SHEET.md`). Each enquiry becomes a row in the sheet, you get an email alert, and the visitor gets an auto-reply. Edit the owner email, phone and reply wording in `CFG` / `autoReply_` in `Code.gs`. The web app URL is set in `index.html` (form action and `window.AC_ENQUIRY_WEBHOOK`). Spam protection: honeypot + minimum-time check.
-After a successful send, the form is replaced by an animated thank-you message (`#form-thanks` in `index.html`).
+(The form script is `js/form.js`, kept separate so an error elsewhere on the page cannot stop it.) After a successful send, the form is replaced by an animated thank-you message (`#form-thanks` in `index.html`).
+The three numbered "what happens next" steps sit to the left of the form in the Contact section (edit the wording in `index.html`; styles are `.steps` in `css/styles.css`). On phones and tablets they stack above the form.
 
 ## Colors
 Navy/gray values are at the top of the `<style type="text/tailwindcss">` block in index.html.

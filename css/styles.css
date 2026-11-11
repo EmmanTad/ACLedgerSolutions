@@ -109,6 +109,13 @@ h2.h-display.is-visible::after { width: 3.5rem; }
 #enquiry-form input, #enquiry-form select, #enquiry-form textarea { transition: border-color .2s ease, box-shadow .2s ease; }
 #enquiry-form input:focus, #enquiry-form select:focus, #enquiry-form textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgb(90 127 230 / .18); }
 
+/* "What happens next" numbered steps beside the contact form */
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { position: relative; display: flex; gap: 1rem; padding-bottom: 1.75rem; }
+.steps li:last-child { padding-bottom: 0; }
+.steps li:not(:last-child)::before { content: ""; position: absolute; left: 1.125rem; top: 2.5rem; bottom: .25rem; width: 2px; margin-left: -1px; background: var(--border); }
+.steps-num { flex: none; width: 2.25rem; height: 2.25rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .95rem; color: var(--primary-foreground); background: var(--blue); }
+
 /* =====================================================================
    THANK-YOU MESSAGE (shown after the form is sent)
    ===================================================================== */
@@ -124,6 +131,15 @@ h2.h-display.is-visible::after { width: 3.5rem; }
 .thanks-icon svg { position: relative; display: block; }
 .thanks-icon circle { stroke-dasharray: 152; stroke-dashoffset: 152; animation: thanks-draw .7s ease .15s forwards; }
 .thanks-icon path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: thanks-draw .45s ease .75s forwards; }
+/* sending spinner + form fade-out + confetti */
+.btn-spinner { display: inline-block; width: 1em; height: 1em; margin-right: .6em; vertical-align: -.15em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: btn-spin .7s linear infinite; }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+.is-sending { opacity: .85; cursor: progress; }
+.form-leaving { opacity: 0; transform: translateY(-8px) scale(.98); transition: opacity .3s ease, transform .3s ease; pointer-events: none; }
+#form-card { position: relative; }
+.confetti { position: absolute; left: 50%; top: 38%; width: 0; height: 0; pointer-events: none; z-index: 5; }
+.confetti i { position: absolute; width: 8px; height: 12px; border-radius: 2px; opacity: 0; animation: confetti-pop 1.5s cubic-bezier(.15,.7,.3,1) forwards; }
+@keyframes confetti-pop { 0% { opacity: 1; transform: translate(0,0) rotate(0); } 70% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 120px)) rotate(var(--r)); } }
 @keyframes thanks-draw { to { stroke-dashoffset: 0; } }
 @keyframes thanks-ring { from { transform: scale(.6); opacity: .9; } to { transform: scale(1.5); opacity: 0; } }
 
@@ -164,5 +180,7 @@ h2.h-display.is-visible::after { width: 3.5rem; }
   .fx, .thanks > * { opacity: 1 !important; animation: none !important; }
   .thanks-icon circle, .thanks-icon path { stroke-dashoffset: 0 !important; animation: none !important; }
   .thanks-icon::before, .cta-pulse { animation: none !important; }
+  .confetti, .btn-spinner { display: none !important; }
+  .form-leaving { transition: none !important; }
   h2.h-display::after { width: 3.5rem; transition: none; }
 }

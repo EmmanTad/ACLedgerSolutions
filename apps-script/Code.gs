@@ -6,7 +6,7 @@
 const CFG = {
   BUSINESS: 'AC Ledger Solutions',
   BRAND_COLOR: '#20244a',                   // used in the email design
-  OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land
+  OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land charles@acledgers.com
   PHONE: '(773) 698-3538',
   WEBSITE: 'www.acledgers.com',
   SHEET_NAME: 'AC Ledger Enquiries',
@@ -31,11 +31,13 @@ function doPost(e) {
 
     const lead = {
       name: clean_(d.name, 100), email: clean_(d.email, 150).toLowerCase(),
-      phone: clean_(d.phone, 30), service: clean_(d.service, 100),
+      phone: cleanPhone_(d.phone), service: clean_(d.service, 100),
       message: clean_(d.message, 2000)
     };
     if (!lead.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email))
       return json_({ ok: false, error: 'Name and a valid email are required' });
+    if (!/^\+\d{1,4} [0-9 ()\-]{6,20}$/.test(lead.phone) || !lead.service || !lead.message)
+      return json_({ ok: false, error: 'Phone (with country code), service and message are required' });
 
     const lock = LockService.getScriptLock();
     lock.waitLock(10000);
@@ -125,13 +127,11 @@ function autoReply_(l) {
     replyTo: CFG.OWNER_EMAIL,
     name: CFG.BUSINESS,
     subject: `Thanks for contacting ${CFG.BUSINESS}`,
-    body: `Hi ${first},\n\nThank you for contacting ${CFG.BUSINESS}. We have received your consultation request and will get back to you shortly.\n\nIf your matter is urgent, please call us at ${CFG.PHONE}.\n\nFor your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.\n\nYour message:\n"${l.message}"\n\nBest regards,\n${CFG.BUSINESS}\nMelrose Park, IL\n${CFG.WEBSITE}`,
+    body: `Hi ${first},\n\nThank you for contacting ${CFG.BUSINESS}. We have received your consultation request and will get back to you shortly.\n\nIf your matter is urgent, please call us at ${CFG.PHONE}.\n\nFor your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.\n\nBest regards,\n${CFG.BUSINESS}\nMelrose Park, IL\n${CFG.WEBSITE}`,
     htmlBody: emailShell_(CFG.BUSINESS, `
       <p style="margin:0 0 12px;font-size:20px;font-weight:700">Thanks, ${esc_(first)}. We got your request.</p>
       <p style="margin:0 0 16px;line-height:1.6">We will get back to you shortly. If your matter is urgent, please call us at ${esc_(CFG.PHONE)}.</p>
-      <p style="margin:0 0 16px;line-height:1.6;font-size:14px;color:#445">For your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.</p>
-      <p style="margin:0 0 6px;color:#667;font-size:13px">What you sent us</p>
-      <div style="background:#f3f4f8;border-radius:8px;padding:14px;white-space:pre-wrap">${esc_(l.message)}</div>`)
+      <p style="margin:0 0 16px;line-height:1.6;font-size:14px;color:#445">For your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.</p>`)
   });
 }
 
@@ -155,12 +155,14 @@ function parseBody_(e) {
 }
 // Strips leading = + - @ so a spreadsheet cell can never run as a formula
 function clean_(v, max) { return String(v || '').trim().slice(0, max).replace(/^[=+\-@]+/, ''); }
+// Phone keeps its leading + (country code); anything other than digits, spaces, ( ) - is removed
+function cleanPhone_(v) { return String(v || '').trim().slice(0, 30).replace(/[^0-9+ ()\-]/g, '').replace(/(?!^)\+/g, ''); }
 function safe_(fn) { try { fn(); } catch (e) { console.error(e); } }
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
 // Run this once from the editor to test everything without the website
 function testLead() {
   doPost({ postData: { contents: JSON.stringify({
-    name: 'Test Customer', email: CFG.OWNER_EMAIL, phone: '7735550123', service: 'Tax Preparation',
+    name: 'Test Customer', email: CFG.OWNER_EMAIL, phone: '+1 7735550123', service: 'Tax Preparation',
     message: 'This is a test enquiry.' }) } });
 }
