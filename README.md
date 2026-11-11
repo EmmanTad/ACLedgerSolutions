@@ -14,7 +14,7 @@ Plain HTML/CSS/JS with Tailwind from CDN — no build step. Upload the folder to
 ## Contact form (auto-response + Excel log)
 See `docs/SETUP-ENQUIRIES.md` for the SharePoint Excel log and `docs/Enquiries-template.xlsx` (the file to upload). The visitor auto-reply text is the hidden `_autoresponse` field in `index.html`.
 
-Posts to FormSubmit -> kgdevstudio@gmail.com (temporary; change the address in the form action in index.html to switch). Sends from the page without leaving it (FormSubmit AJAX, `data-ajax` on the form) and auto-replies to the visitor. Spam protection: honeypot + minimum-time check.
+Posts to FormSubmit -> kgdevstudio@gmail.com (temporary; change the address in the form action in index.html to switch). Sends from the page without leaving it (FormSubmit AJAX; the script derives the AJAX address from the form action, so the recipient is set in one place) and auto-replies to the visitor. Spam protection: honeypot + minimum-time check.
 One-time step: submit a test entry, then click the activation link emailed to kgdevstudio@gmail.com.
 
 ## Colors

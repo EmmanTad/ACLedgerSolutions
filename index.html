@@ -222,10 +222,10 @@
         <div class="mt-10">
 
           <div class="max-w-3xl rounded-2xl border border-border bg-white/85 p-6 shadow-sm backdrop-blur-sm md:p-8">
-            <!-- FORM: sends straight from the page (no redirect) to kgdevstudio@gmail.com via FormSubmit AJAX, and emails the visitor an auto-reply.
+            <!-- FORM: RECIPIENT = the email address in the action URL below (change it there only). Sends straight from the page (no redirect) via FormSubmit AJAX, and emails the visitor an auto-reply.
                  The FIRST submission triggers an activation email to kgdevstudio@gmail.com — click the link in it once.
                  Without JavaScript the form falls back to a normal FormSubmit post (action below). -->
-            <form id="enquiry-form" data-ajax="https://formsubmit.co/ajax/kgdevstudio@gmail.com" action="https://formsubmit.co/kgdevstudio@gmail.com" method="POST" class="grid gap-5 sm:grid-cols-2">
+            <form id="enquiry-form" action="https://formsubmit.co/kgdevstudio@gmail.com" method="POST" class="grid gap-5 sm:grid-cols-2">
               <input type="hidden" name="_subject" value="New consultation request — AC Ledger Solutions">
               <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_template" value="table">

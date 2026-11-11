@@ -114,7 +114,8 @@
 (function () {
   var form = document.getElementById("enquiry-form");
   if (!form) return;
-  var endpoint = form.getAttribute("data-ajax");
+  // The recipient is set in ONE place: the form's action in index.html. The AJAX endpoint is derived from it.
+  var endpoint = (form.getAttribute("action") || "").replace("formsubmit.co/", "formsubmit.co/ajax/");
   var statusEl = document.getElementById("form-status");
   var btn = form.querySelector('button[type="submit"]');
   var loaded = Date.now();
@@ -160,7 +161,7 @@
       say("Thank you! We have received your request and sent a confirmation to your email. We will get back to you shortly.", true);
       form.reset();
     }).catch(function () {
-      say("Sorry, we could not send your request. Please try again, or call us at (773) 698-3538.", false);
+      say("Sorry, we could not send your request. Please try again, or contact us at charles@acledgers.com or (773) 698-3538.", false);
     }).then(function () {
       btn.disabled = false; btn.textContent = label;
     });
