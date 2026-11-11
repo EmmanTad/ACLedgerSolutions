@@ -4,7 +4,7 @@ One scrolling page (`index.html`). Menu: Home, About Us, Services, Contact.
 Plain HTML/CSS/JS with Tailwind from CDN — no build step. Upload the folder to any static host.
 
 ## Things to fill in (search index.html for these)
-- Favicon: `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` (made from the logo)
+- Favicon: `assets/favicon.ico`, `assets/favicon-16x16.png`, `assets/favicon-32x32.png`, `assets/apple-touch-icon.png` (and `assets/icon-192.png`, `assets/icon-512.png` for manifest.json) (made from the logo)
 - Logo: `assets/logo-mark.png` (cut from your logo card). Replace the file with a higher-resolution logo if you have one
 - Home background: animated logo scene (SVG logo, typewriter title, particles) — styles in css/styles.css, script at the end of js/main.js. `animated-background.html` is the same scene as a standalone page
 - `INTRO PARAGRAPH` — final intro text
@@ -16,6 +16,9 @@ See `docs/SETUP-ENQUIRIES.md` for the SharePoint Excel log and `docs/Enquiries-t
 
 Posts to FormSubmit -> kgdevstudio@gmail.com (temporary; change the address in the form action in index.html to switch). Sends from the page without leaving it (FormSubmit AJAX; the script derives the AJAX address from the form action, so the recipient is set in one place) and auto-replies to the visitor. Spam protection: honeypot + minimum-time check.
 One-time step: submit a test entry, then click the activation link emailed to kgdevstudio@gmail.com.
+
+## Google Sheet enquiry log
+See `docs/SETUP-GOOGLE-SHEET.md` and `apps-script/Code.gs`. Paste the Apps Script web app URL into `window.AC_ENQUIRY_WEBHOOK` at the bottom of `index.html`; each enquiry is then logged as a row.
 
 ## Colors
 Navy/gray values are at the top of the `<style type="text/tailwindcss">` block in index.html.
