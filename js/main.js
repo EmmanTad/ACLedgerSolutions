@@ -81,10 +81,8 @@
   var cv = root.querySelector("canvas"), ctx = cv.getContext("2d");
   var W, H, P = [], raf = 0, vis = true, dpr = Math.min(window.devicePixelRatio || 1, 2);
   function mk(init) {
-    return {
-      x: Math.random() * W, y: init ? Math.random() * H : H + 4, r: Math.random() * 2 + .6,
-      v: Math.random() * .25 + .08, a: Math.random() * .4 + .15, b: Math.random() < .3
-    };
+    return { x: Math.random() * W, y: init ? Math.random() * H : H + 4, r: Math.random() * 2 + .6,
+      v: Math.random() * .25 + .08, a: Math.random() * .4 + .15, b: Math.random() < .3 };
   }
   function draw() {
     ctx.clearRect(0, 0, W, H);
@@ -112,20 +110,59 @@
   run();
 })();
 
-// ===== Enquiry log: sends a copy of each enquiry to the Power Automate flow (-> SharePoint Excel) =====
+// ===== Contact form: sends in the page (no redirect) + optional Excel log =====
 (function () {
   var form = document.getElementById("enquiry-form");
   if (!form) return;
-  form.addEventListener("submit", function () {
+  var endpoint = form.getAttribute("data-ajax");
+  var statusEl = document.getElementById("form-status");
+  var btn = form.querySelector('button[type="submit"]');
+  var loaded = Date.now();
+
+  function say(msg, ok) {
+    statusEl.textContent = msg;
+    statusEl.className = "sm:col-span-2 rounded-lg px-4 py-3 text-sm " +
+      (ok ? "bg-primary text-primary-foreground" : "border border-red-200 bg-red-50 text-red-800");
+    statusEl.hidden = false;
+  }
+
+  // Optional: copy of each enquiry to a Power Automate flow -> SharePoint Excel (see docs/SETUP-ENQUIRIES.md)
+  function logEnquiry(p) {
     var url = (window.AC_ENQUIRY_WEBHOOK || "").trim();
-    if (!url) return;                                           // log switched off
-    if (form.elements["_honey"] && form.elements["_honey"].value) return; // looks like a bot
-    var data = new URLSearchParams();
-    ["name", "email", "phone", "service", "message"].forEach(function (k) {
-      var el = form.elements[k];
-      data.append(k, el ? el.value.trim() : "");
+    if (!url) return;
+    var d = new URLSearchParams();
+    ["name", "email", "phone", "service", "message"].forEach(function (k) { d.append(k, p[k] || ""); });
+    d.append("page", location.href);
+    try { fetch(url, { method: "POST", mode: "no-cors", keepalive: true, body: d }); } catch (e) {}
+  }
+
+  form.addEventListener("submit", function (e) {
+    if (!window.fetch || !endpoint) return;           // no JS support: normal form post
+    e.preventDefault();
+    var payload = {};
+    new FormData(form).forEach(function (v, k) { payload[k] = typeof v === "string" ? v.trim() : v; });
+    if (payload._honey || Date.now() - loaded < 3000) {  // bot: pretend it worked, send nothing
+      say("Thank you! We have received your request and will get back to you shortly.", true); form.reset(); return;
+    }
+    delete payload._honey;
+    var label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Sending…";
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        if (!r.ok || d.success === false || d.success === "false") throw new Error(d.message || "failed");
+      });
+    }).then(function () {
+      logEnquiry(payload);
+      say("Thank you! We have received your request and sent a confirmation to your email. We will get back to you shortly.", true);
+      form.reset();
+    }).catch(function () {
+      say("Sorry, we could not send your request. Please try again, or call us at (773) 698-3538.", false);
+    }).then(function () {
+      btn.disabled = false; btn.textContent = label;
     });
-    data.append("page", location.href);
-    try { fetch(url, { method: "POST", mode: "no-cors", keepalive: true, body: data }); } catch (e) { }
   });
 })();

@@ -25,7 +25,7 @@
     var s = {
       section: section, canvas: canvas, renderer: renderer,
       scene: new THREE.Scene(), camera: new THREE.PerspectiveCamera(50, 1, 0.1, 100),
-      visible: false, mouse: { x: 0, y: 0 }, update: function () { }, resize: function () { }
+      visible: false, mouse: { x: 0, y: 0 }, update: function () {}, resize: function () {}
     };
     // half visible height at depth z (camera looking down -z)
     s.halfH = function (z) { return Math.tan(25 * Math.PI / 180) * (s.camera.position.z - z); };
