@@ -116,12 +116,13 @@
   run();
 })();
 
-// ===== Contact form: sends in the page (no redirect), shows a thank-you message, optional Excel log =====
+// ===== Contact form: sends in the page (no redirect), shows a thank-you message, saved to Google Sheets =====
 (function () {
   var form = document.getElementById("enquiry-form");
   if (!form) return;
-  // The recipient is set in ONE place: the form's action in index.html. The AJAX endpoint is derived from it.
-  var endpoint = (form.getAttribute("action") || "").replace("formsubmit.co/", "formsubmit.co/ajax/");
+  // Enquiries go to the Google Apps Script web app (window.AC_ENQUIRY_WEBHOOK in index.html): it saves a row in
+  // Google Sheets, emails the owner and auto-replies to the visitor.
+  var endpoint = (window.AC_ENQUIRY_WEBHOOK || form.getAttribute("action") || "").trim();
   var statusEl = document.getElementById("form-status");
   var btn = form.querySelector('button[type="submit"]');
   var card = document.getElementById("form-card");
@@ -161,16 +162,6 @@
     var first = form.querySelector("#name"); if (first) first.focus();
   });
 
-  // Optional: copy of each enquiry to a Power Automate flow -> SharePoint Excel (see docs/SETUP-ENQUIRIES.md)
-  function logEnquiry(p) {
-    var url = (window.AC_ENQUIRY_WEBHOOK || "").trim();
-    if (!url) return;
-    var d = new URLSearchParams();
-    ["name", "email", "phone", "service", "message"].forEach(function (k) { d.append(k, p[k] || ""); });
-    d.append("page", location.href);
-    try { fetch(url, { method: "POST", mode: "no-cors", keepalive: true, body: d }); } catch (e) {}
-  }
-
   form.addEventListener("submit", function (e) {
     if (!window.fetch || !endpoint) return;           // no JS support: normal form post
     e.preventDefault();
@@ -180,34 +171,17 @@
       showThanks(payload); return;
     }
     delete payload._honey;
+    payload.page = location.href;
     var label = btn.textContent;
     btn.disabled = true; btn.textContent = "Sending…";
     statusEl.hidden = true;
-    // 1) Try the AJAX endpoint and read its answer. 2) If the browser blocks/cannot read that request
-    //    (network or CORS error, e.g. page opened from a file), fall back to a plain background post.
-    var done = function () { try { logEnquiry(payload); showThanks(payload); } catch (x) { console.error(x); thanks.hidden = false; form.hidden = true; } };
-    fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(payload)
-    }).then(function (r) {
-      return r.json().catch(function () { return null; }).then(function (d) {
-        var msg = (d && d.message) || "";
-        if (d && (d.success === true || d.success === "true")) return done();
-        if (/activat/i.test(msg)) return done();          // first-ever submission: FormSubmit emails an activation link
-        if (r.ok && !d) return done();
-        var err = new Error(msg || "failed"); err.rejected = true; throw err;   // the service answered with a real refusal
-      });
-    }).catch(function (err) {
-      if (err && err.rejected) { console.error("Form not sent:", err.message); throw err; }
-      // could not reach / read the AJAX endpoint: send as a normal form post in the background
-      var body = new URLSearchParams(); Object.keys(payload).forEach(function (k) { body.append(k, payload[k]); });
-      return fetch(form.getAttribute("action"), { method: "POST", mode: "no-cors", body: body }).then(done);
-    }).catch(function (err) {
-      console.error("Form error:", err);
-      say("Sorry, we could not send your request. Please try again, or contact us at charles@acledgers.com or (773) 698-3538.", false);
-    }).then(function () {
-      btn.disabled = false; btn.textContent = label;
-    });
+    // no-cors: Apps Script replies cannot be read from a browser, but the request is delivered
+    fetch(endpoint, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) })
+      .then(function () { showThanks(payload); })
+      .catch(function (err) {
+        console.error("Form error:", err);
+        say("Sorry, we could not send your request. Please try again, or contact us at charles@acledgers.com or (773) 698-3538.", false);
+      })
+      .then(function () { btn.disabled = false; btn.textContent = label; });
   });
 })();

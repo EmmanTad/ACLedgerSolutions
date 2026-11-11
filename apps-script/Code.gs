@@ -1,48 +1,145 @@
 /**
- * AC Ledger Solutions — enquiry log.
- * Paste into Extensions > Apps Script of a Google Sheet, then Deploy as a Web app.
- * The website posts each enquiry here; every enquiry becomes one row on the "Enquiries" tab.
+ * AC Ledger Solutions — Enquiry capture (Google Apps Script)
+ * Website form -> saved to Google Sheet -> email alert to you -> auto-reply to the visitor.
+ * Setup steps: docs/SETUP-GOOGLE-SHEET.md
  */
-var SHEET_NAME = "Enquiries";
-var HEADERS = ["Received", "Name", "Email", "Phone", "Service", "Message", "Page", "Status", "Notes"];
+const CFG = {
+  BUSINESS: 'AC Ledger Solutions',
+  BRAND_COLOR: '#20244a',                   // used in the email design
+  OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land
+  PHONE: '(773) 698-3538',
+  WEBSITE: 'www.acledgers.com',
+  SHEET_NAME: 'Enquiries',
+  // Optional SMS alert to the owner via Semaphore (leave blank to skip)
+  SEMAPHORE_KEY: '',
+  OWNER_PHONE: '',                          // e.g. 09171234567
+  // Optional shared secret: if set, the form must send the same value as "token"
+  TOKEN: ''
+};
 
+const HEADERS = ['Received', 'Name', 'Email', 'Phone', 'Service', 'Message', 'Source page', 'Status', 'Notes'];
+
+// ---- Webhook endpoint (deploy as Web app) ----
 function doPost(e) {
-  var lock = LockService.getScriptLock();
   try {
+    const d = parseBody_(e);
+    if (d._honey || d.company_website) return json_({ ok: true });     // honeypot: bots fill this, humans don't
+    if (CFG.TOKEN && d.token !== CFG.TOKEN) return json_({ ok: false, error: 'unauthorized' });
+
+    const lead = {
+      name: clean_(d.name, 100), email: clean_(d.email, 150).toLowerCase(),
+      phone: clean_(d.phone, 30), service: clean_(d.service, 100),
+      message: clean_(d.message, 2000), page: clean_(d.page, 300)
+    };
+    if (!lead.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email))
+      return json_({ ok: false, error: 'Name and a valid email are required' });
+
+    const lock = LockService.getScriptLock();
     lock.waitLock(10000);
-    var p = (e && e.parameter) || {};
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sh = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
-    if (sh.getLastRow() === 0) {
-      sh.appendRow(HEADERS);
-      sh.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold").setBackground("#20244a").setFontColor("#ffffff");
-      sh.setFrozenRows(1);
-      sh.getRange("A:A").setNumberFormat("yyyy-mm-dd hh:mm");
-      sh.getRange("F:F").setWrap(true);
-      sh.setColumnWidth(6, 420);
-      sh.getRange("H2:H").setDataValidation(
-        SpreadsheetApp.newDataValidation().requireValueInList(["New", "Contacted", "Quoted", "Won", "Closed"], true).build());
-    }
-    sh.appendRow([
-      new Date(), safe(p.name), safe(p.email), safe(p.phone), safe(p.service), safe(p.message), safe(p.page), "New", ""
-    ]);
-    return json({ ok: true });
+    try { saveLead_(lead); } finally { lock.releaseLock(); }
+
+    // Alerts and replies run after the row is saved, so a mail failure never loses an enquiry
+    safe_(() => alertOwner_(lead));
+    safe_(() => autoReply_(lead));
+    return json_({ ok: true });
   } catch (err) {
-    return json({ ok: false, error: String(err) });
-  } finally {
-    try { lock.releaseLock(); } catch (x) {}
+    console.error(err);
+    return json_({ ok: false, error: 'Server error' });
   }
 }
 
-// Opening the web app URL in a browser shows this, so you can confirm the deployment works.
-function doGet() { return json({ ok: true, service: "AC Ledger enquiry log" }); }
+function doGet() { return json_({ ok: true, service: 'ac-ledger-enquiries' }); }   // quick health check
 
-// Stops visitor text starting with = + - @ from being run as a spreadsheet formula.
-function safe(v) {
-  v = String(v == null ? "" : v).slice(0, 5000);
-  return /^[=+\-@]/.test(v) ? "'" + v : v;
+// ---- Steps ----
+function saveLead_(l) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName(CFG.SHEET_NAME) || ss.insertSheet(CFG.SHEET_NAME);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(HEADERS);
+    sh.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold').setBackground(CFG.BRAND_COLOR).setFontColor('#ffffff');
+    sh.setFrozenRows(1);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+    sh.getRange('F:F').setWrap(true);
+    sh.setColumnWidth(6, 420);
+    sh.getRange('H2:H').setDataValidation(
+      SpreadsheetApp.newDataValidation().requireValueInList(['New', 'Contacted', 'Quoted', 'Won', 'Closed'], true).build());
+  }
+  sh.appendRow([new Date(), l.name, l.email, "'" + l.phone, l.service, l.message, l.page, 'New', '']);
 }
 
-function json(o) {
-  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+function alertOwner_(l) {
+  const url = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  MailApp.sendEmail({
+    to: CFG.OWNER_EMAIL,
+    replyTo: l.email,                                   // hit Reply to answer the visitor directly
+    name: CFG.BUSINESS + ' website',
+    subject: 'New consultation request: ' + l.name,
+    body: `${l.name}\n${l.email}\n${l.phone}\nService: ${l.service}\n\n${l.message}\n\nFrom: ${l.page}\nAll enquiries: ${url}`,
+    htmlBody: emailShell_('New consultation request', `
+      <p style="margin:0 0 16px;font-size:20px;font-weight:700">${esc_(l.name)}</p>
+      <table style="width:100%;font-size:15px;border-collapse:collapse">
+        <tr><td style="padding:6px 0;color:#667">Email</td><td><a href="mailto:${esc_(l.email)}">${esc_(l.email)}</a></td></tr>
+        <tr><td style="padding:6px 0;color:#667">Phone</td><td>${esc_(l.phone) || '-'}</td></tr>
+        <tr><td style="padding:6px 0;color:#667">Service</td><td>${esc_(l.service) || '-'}</td></tr>
+        <tr><td style="padding:6px 0;color:#667">Page</td><td>${esc_(l.page) || '-'}</td></tr>
+      </table>
+      <p style="margin:16px 0 6px;color:#667;font-size:13px">Message</p>
+      <div style="background:#f3f4f8;border-radius:8px;padding:14px;white-space:pre-wrap">${esc_(l.message)}</div>
+      <p style="margin:20px 0 0"><a href="${url}" style="background:${CFG.BRAND_COLOR};color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600">Open enquiry sheet</a></p>`)
+  });
+  if (CFG.SEMAPHORE_KEY && CFG.OWNER_PHONE) {
+    UrlFetchApp.fetch('https://api.semaphore.co/api/v4/messages', {
+      method: 'post',
+      payload: { apikey: CFG.SEMAPHORE_KEY, number: CFG.OWNER_PHONE,
+                 message: `New enquiry: ${l.name} ${l.phone || l.email}` },
+      muteHttpExceptions: true
+    });
+  }
+}
+
+function autoReply_(l) {
+  const first = l.name.split(' ')[0];
+  MailApp.sendEmail({
+    to: l.email,
+    replyTo: CFG.OWNER_EMAIL,
+    name: CFG.BUSINESS,
+    subject: `Thanks for contacting ${CFG.BUSINESS}`,
+    body: `Hi ${first},\n\nThank you for contacting ${CFG.BUSINESS}. We have received your consultation request and will get back to you shortly.\n\nIf your matter is urgent, please call us at ${CFG.PHONE}.\n\nFor your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.\n\nYour message:\n"${l.message}"\n\nBest regards,\n${CFG.BUSINESS}\nMelrose Park, IL\n${CFG.WEBSITE}`,
+    htmlBody: emailShell_(CFG.BUSINESS, `
+      <p style="margin:0 0 12px;font-size:20px;font-weight:700">Thanks, ${esc_(first)}. We got your request.</p>
+      <p style="margin:0 0 16px;line-height:1.6">We will get back to you shortly. If your matter is urgent, please call us at ${esc_(CFG.PHONE)}.</p>
+      <p style="margin:0 0 16px;line-height:1.6;font-size:14px;color:#445">For your security, please do not email Social Security numbers, bank account numbers, or tax documents. We will arrange a secure way to share documents after we connect.</p>
+      <p style="margin:0 0 6px;color:#667;font-size:13px">What you sent us</p>
+      <div style="background:#f3f4f8;border-radius:8px;padding:14px;white-space:pre-wrap">${esc_(l.message)}</div>`)
+  });
+}
+
+// ---- Email design ----
+function emailShell_(title, inner) {
+  return `<div style="background:#eef0f5;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;color:#12141f">
+    <div style="max-width:520px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden">
+      <div style="background:${CFG.BRAND_COLOR};color:#fff;padding:18px 24px;font-size:16px;font-weight:700">${esc_(title)}</div>
+      <div style="padding:24px">${inner}</div>
+      <div style="padding:14px 24px;background:#f7f8fa;color:#778;font-size:12px">${esc_(CFG.BUSINESS)} · Melrose Park, IL</div>
+    </div></div>`;
+}
+function esc_(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ---- Helpers ----
+function parseBody_(e) {
+  const raw = (e.postData && e.postData.contents) || '';
+  try { return JSON.parse(raw); } catch (_) { return e.parameter || {}; }   // JSON or normal form fields
+}
+// Strips leading = + - @ so a spreadsheet cell can never run as a formula
+function clean_(v, max) { return String(v || '').trim().slice(0, max).replace(/^[=+\-@]+/, ''); }
+function safe_(fn) { try { fn(); } catch (e) { console.error(e); } }
+function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+
+// Run this once from the editor to test everything without the website
+function testLead() {
+  doPost({ postData: { contents: JSON.stringify({
+    name: 'Test Customer', email: CFG.OWNER_EMAIL, phone: '7735550123', service: 'Tax Preparation',
+    message: 'This is a test enquiry.', page: 'manual test' }) } });
 }

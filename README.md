@@ -11,14 +11,9 @@ Plain HTML/CSS/JS with Tailwind from CDN — no build step. Upload the folder to
 - Team: four cards with photos in `assets/team-1.jpg` … `team-4.jpg` (replace the files to change a photo). Update each "Team Member Name / Title" and the image `alt` text
 - Six service blocks — edit titles/descriptions (keep "Contact us for a quote")
 
-## Contact form (auto-response + Excel log)
-See `docs/SETUP-ENQUIRIES.md` for the SharePoint Excel log and `docs/Enquiries-template.xlsx` (the file to upload). The visitor auto-reply text is the hidden `_autoresponse` field in `index.html`.
-
-Posts to FormSubmit -> kgdevstudio@gmail.com (temporary; change the address in the form action in index.html to switch). Sends from the page without leaving it (FormSubmit AJAX; the script derives the AJAX address from the form action, so the recipient is set in one place) and auto-replies to the visitor. Spam protection: honeypot + minimum-time check.
-One-time step: submit a test entry, then click the activation link emailed to kgdevstudio@gmail.com.
-
-## Google Sheet enquiry log
-See `docs/SETUP-GOOGLE-SHEET.md` and `apps-script/Code.gs`. Paste the Apps Script web app URL into `window.AC_ENQUIRY_WEBHOOK` at the bottom of `index.html`; each enquiry is then logged as a row.
+## Contact form (Google Sheet + email alert + auto-reply)
+The form posts to a Google Apps Script web app (`apps-script/Code.gs`, setup in `docs/SETUP-GOOGLE-SHEET.md`). Each enquiry becomes a row in the sheet, you get an email alert, and the visitor gets an auto-reply. Edit the owner email, phone and reply wording in `CFG` / `autoReply_` in `Code.gs`. The web app URL is set in `index.html` (form action and `window.AC_ENQUIRY_WEBHOOK`). Spam protection: honeypot + minimum-time check.
+After a successful send, the form is replaced by an animated thank-you message (`#form-thanks` in `index.html`).
 
 ## Colors
 Navy/gray values are at the top of the `<style type="text/tailwindcss">` block in index.html.
@@ -29,4 +24,4 @@ Navy/gray values are at the top of the `<style type="text/tailwindcss">` block i
 ## Animations & responsive layout
 - Every block fades/slides in on scroll via `data-reveal` (variants: default up, `left`, `right`, `zoom`, `fade`; stagger with `style="--d:80ms"`). Styles are at the end of `css/styles.css`.
 - Layout is tuned for phone (<640px), tablet (640-1023px), desktop (1024px+) and large screens (1536px+). Animations switch off for visitors who prefer reduced motion.
-- After a successful send, the form is replaced by an animated thank-you message (`#form-thanks` in `index.html`; wording is editable there).
+
