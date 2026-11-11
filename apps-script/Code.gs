@@ -9,7 +9,7 @@ const CFG = {
   OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land
   PHONE: '(773) 698-3538',
   WEBSITE: 'www.acledgers.com',
-  SHEET_NAME: 'Enquiries',
+  SHEET_NAME: 'AC Ledger Enquiries',
   // Optional SMS alert to the owner via Semaphore (leave blank to skip)
   SEMAPHORE_KEY: '',
   OWNER_PHONE: '',                          // e.g. 09171234567
@@ -17,7 +17,7 @@ const CFG = {
   TOKEN: ''
 };
 
-const HEADERS = ['Received', 'Name', 'Email', 'Phone', 'Service', 'Message', 'Source page', 'Status', 'Notes'];
+const HEADERS = ['Time Received', 'Full name', 'Email', 'Phone', 'Service you\u2019re interested in', 'How can we help?', 'Status', 'Notes'];
 
 // ---- Webhook endpoint (deploy as Web app) ----
 function doPost(e) {
