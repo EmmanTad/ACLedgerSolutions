@@ -6,7 +6,7 @@
 const CFG = {
   BUSINESS: 'AC Ledger Solutions',
   BRAND_COLOR: '#20244a',                   // used in the email design
-  OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land charles@acledgers.com
+  OWNER_EMAIL: 'kgdevstudio@gmail.com',     // where alerts go and where visitor replies land
   PHONE: '(773) 698-3538',
   WEBSITE: 'www.acledgers.com',
   SHEET_NAME: 'AC Ledger Enquiries',
@@ -20,7 +20,7 @@ const CFG = {
   TOKEN: ''
 };
 
-const HEADERS = ['Time Received', 'Full name', 'Email', 'Phone', 'Service you\u2019re interested in', 'How can we help?', 'Notes'];
+const HEADERS = ['Time Received', 'Full name', 'Business name', 'Email', 'Phone', 'Service you\u2019re interested in', 'How can we help?', 'Notes'];
 
 // ---- Webhook endpoint (deploy as Web app) ----
 function doPost(e) {
@@ -30,7 +30,7 @@ function doPost(e) {
     if (CFG.TOKEN && d.token !== CFG.TOKEN) return json_({ ok: false, error: 'unauthorized' });
 
     const lead = {
-      name: clean_(d.name, 100), email: clean_(d.email, 150).toLowerCase(),
+      name: clean_(d.name, 100), business: clean_(d.business, 100), email: clean_(d.email, 150).toLowerCase(),
       phone: cleanPhone_(d.phone), service: clean_(d.service, 100),
       message: clean_(d.message, 2000)
     };
@@ -83,6 +83,7 @@ function valueFor_(h, l) {
   h = h.trim().toLowerCase();
   if (h === 'received' || h === 'time received') return new Date();
   if (h === 'name' || h === 'full name') return l.name;
+  if (h === 'business name' || h === 'business' || h === 'company') return l.business;
   if (h === 'email') return l.email;
   if (h === 'phone') return l.phone ? "'" + l.phone : '';
   if (h.indexOf('service') === 0) return l.service;
@@ -98,10 +99,11 @@ function alertOwner_(l) {
     replyTo: l.email,                                   // hit Reply to answer the visitor directly
     name: CFG.BUSINESS + ' website',
     subject: 'New consultation request: ' + l.name,
-    body: `${l.name}\n${l.email}\n${l.phone}\nService: ${l.service}\n\n${l.message}\n\n`,
+    body: `${l.name}\n${l.business ? l.business + '\n' : ''}${l.email}\n${l.phone}\nService: ${l.service}\n\n${l.message}\n\n`,
     htmlBody: emailShell_('New consultation request', `
       <p style="margin:0 0 16px;font-size:20px;font-weight:700">${esc_(l.name)}</p>
       <table style="width:100%;font-size:15px;border-collapse:collapse">
+        <tr><td style="padding:6px 0;color:#667">Business</td><td>${esc_(l.business) || '-'}</td></tr>
         <tr><td style="padding:6px 0;color:#667">Email</td><td><a href="mailto:${esc_(l.email)}">${esc_(l.email)}</a></td></tr>
         <tr><td style="padding:6px 0;color:#667">Phone</td><td>${esc_(l.phone) || '-'}</td></tr>
         <tr><td style="padding:6px 0;color:#667">Service</td><td>${esc_(l.service) || '-'}</td></tr>
@@ -163,6 +165,6 @@ function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).se
 // Run this once from the editor to test everything without the website
 function testLead() {
   doPost({ postData: { contents: JSON.stringify({
-    name: 'Test Customer', email: CFG.OWNER_EMAIL, phone: '+1 7735550123', service: 'Tax Preparation',
+    name: 'Test Customer', business: 'Test Business LLC', email: CFG.OWNER_EMAIL, phone: '+1 7735550123', service: 'Tax Preparation',
     message: 'This is a test enquiry.' }) } });
 }

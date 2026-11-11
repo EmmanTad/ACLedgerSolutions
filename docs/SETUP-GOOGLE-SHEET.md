@@ -11,7 +11,7 @@ Each enquiry from the website form is saved as a row in a Google Sheet, you get 
 6. If the URL differs from the one in `index.html`, replace it in two places: the form `action` and `window.AC_ENQUIRY_WEBHOOK`.
 7. Upload the site and send a test enquiry from the form.
 
-Sheet columns: Received, Name, Email, Phone, Service, Message, Status (dropdown), Notes. Rows go to a tab named **Enquiries**.
+Sheet columns: Received, Name, Business name, Email, Phone, Service, Message, Status (dropdown), Notes. Rows go to a tab named **Enquiries**.
 
 ## Notes
 - Settings (owner email, phone, SMS alert) are in `CFG` at the top of `Code.gs`. SMS via Semaphore is off until you fill in `SEMAPHORE_KEY` and `OWNER_PHONE`.
