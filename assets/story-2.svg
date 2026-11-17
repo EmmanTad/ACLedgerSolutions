@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" role="img" aria-label="A journey from one home to a new one">
+<rect width="600" height="450" rx="24" fill="#e3e6ec"/>
+<circle cx="100" cy="90" r="70" fill="#d3d9ea"/>
+<path d="M0 360 Q150 320 300 350 T600 340 V450 H0Z" fill="#d3d9ea"/>
+<path d="M120 300 Q300 80 480 300" fill="none" stroke="#5b7be0" stroke-width="5" stroke-dasharray="4 14" stroke-linecap="round"/>
+<g transform="translate(70 270)"><path d="M0 40 L50 0 L100 40 V100 H0Z" fill="#9aa3bf"/><rect x="38" y="60" width="24" height="40" fill="#e3e6ec"/><rect x="12" y="46" width="18" height="18" fill="#e3e6ec"/></g>
+<g transform="translate(430 250)"><path d="M0 50 L60 0 L120 50 V120 H0Z" fill="#1f2a5c"/><rect x="45" y="70" width="30" height="50" fill="#e3e6ec"/><rect x="14" y="56" width="22" height="22" fill="#5b7be0"/><rect x="84" y="56" width="22" height="22" fill="#5b7be0"/><rect x="88" y="10" width="14" height="30" fill="#1f2a5c"/></g>
+<g transform="translate(262 108) rotate(20 38 30)"><path d="M0 30 L76 0 L50 60 L36 38 Z" fill="#1f2a5c"/><path d="M36 38 L76 0" stroke="#e3e6ec" stroke-width="3"/></g>
+<g transform="translate(270 330)"><circle cx="30" cy="30" r="28" fill="#fff" stroke="#1f2a5c" stroke-width="5"/><path d="M30 14v18l12 8" fill="none" stroke="#1f2a5c" stroke-width="5" stroke-linecap="round"/></g>
+</svg>

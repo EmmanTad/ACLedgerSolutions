@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" role="img" aria-label="Open ledger book with pen and calculator">
+<rect width="600" height="450" rx="24" fill="#e3e6ec"/>
+<circle cx="500" cy="80" r="90" fill="#d3d9ea"/>
+<rect x="90" y="110" width="400" height="250" rx="10" fill="#1f2a5c"/>
+<path d="M300 125 L300 350" stroke="#e3e6ec" stroke-width="3"/>
+<path d="M100 125 Q200 112 296 128 L296 346 Q200 332 100 346 Z" fill="#fff"/>
+<path d="M304 128 Q400 112 500 125 L500 346 Q400 332 304 346 Z" fill="#fff"/>
+<g stroke="#b9c0d6" stroke-width="2"><path d="M125 165h150M125 190h150M125 215h150M125 240h150M125 265h150M125 290h150M125 315h150M330 165h150M330 190h150M330 215h150M330 240h150M330 265h150M330 290h150M330 315h150"/></g>
+<g stroke="#5b7be0" stroke-width="3"><path d="M250 150v180M265 150v180M455 150v180M470 150v180" opacity=".35"/></g>
+<g fill="#1f2a5c" font-family="Arial,sans-serif" font-size="13" font-weight="700"><text x="128" y="182">1 2 0 0 . 0 0</text><text x="128" y="207">4 5 0 . 5 0</text><text x="333" y="182">3 1 8 . 2 5</text><text x="333" y="232">9 7 5 . 0 0</text></g>
+<g transform="rotate(35 470 330)"><rect x="440" y="250" width="16" height="130" rx="4" fill="#5b7be0"/><path d="M440 380h16l-8 24z" fill="#1f2a5c"/></g>
+<rect x="60" y="330" width="90" height="90" rx="10" fill="#5b7be0"/>
+<rect x="72" y="342" width="66" height="22" rx="4" fill="#e3e6ec"/>
+<g fill="#fff"><circle cx="82" cy="382" r="6"/><circle cx="105" cy="382" r="6"/><circle cx="128" cy="382" r="6"/><circle cx="82" cy="402" r="6"/><circle cx="105" cy="402" r="6"/><circle cx="128" cy="402" r="6"/></g>
+</svg>

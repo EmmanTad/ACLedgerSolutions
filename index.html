@@ -74,6 +74,7 @@
       </a>
       <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
         <a href="#home" class="text-sm font-medium link-underline">Home</a>
+        <a href="#story" class="text-sm font-medium link-underline">Our Story</a>
         <a href="#about" class="text-sm font-medium link-underline">About Us</a>
         <a href="#services" class="text-sm font-medium link-underline">Services</a>
         <a href="#contact" class="text-sm font-medium link-underline">Contact</a>
@@ -87,6 +88,7 @@
       <div class="overflow-hidden">
         <nav class="container-site flex flex-col gap-1 py-4" aria-label="Mobile">
           <a href="#home" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Home</a>
+          <a href="#story" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Our Story</a>
           <a href="#about" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">About Us</a>
           <a href="#services" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Services</a>
           <a href="#contact" class="rounded-lg px-3 py-3 text-sm font-medium hover:bg-white/10">Contact</a>
@@ -122,12 +124,46 @@
         </svg>
         <h1 class="ac-title" aria-label="AC LEDGER SOLUTIONS">AC LEDGER SOLUTIONS</h1>
         <span class="ac-line"></span>
-        <p class="ac-svc"><span class="ac-row"><span class="ac-i">Bookkeeping</span><span class="ac-i">Tax Preparation</span><span class="ac-i">Payroll Processing</span><span class="ac-i">Financial Reports</span></span><span class="ac-row"><span class="ac-i">Cleanup Projects</span><span class="ac-i">QuickBooks Setup &amp; Training</span><span class="ac-i">Inventory Count Support</span><span class="ac-i">Notarial Services</span></span></p>
+        <p class="ac-svc"><span class="ac-row"><span class="ac-i">Bookkeeping &amp; Reconciliation</span><span class="ac-i">Payroll Processing</span><span class="ac-i">Tax Preparation</span><span class="ac-i">Bookkeeping Cleanup</span></span><span class="ac-row"><span class="ac-i">QuickBooks Setup &amp; Training</span><span class="ac-i">Inventory Count Support</span><span class="ac-i">Notary Services</span></span></p>
       </div>
       <div class="ac-intro max-w-xl">
         <!-- INTRO PARAGRAPH: replace with your final intro text -->
-        <p class="text-lg leading-relaxed text-white/80">[Short intro paragraph goes here.] We keep your books accurate and your taxes on time, so you can focus on running your business.</p>
+        <p class="text-lg leading-relaxed text-white/80">From handwritten ledgers to today&rsquo;s bookkeeping tools, attention to the details has always mattered. We help individuals and small businesses keep their books accurate.</p>
         <a href="#contact" class="cta-pulse mt-7 inline-block rounded-full bg-blue px-7 py-3.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg hover:brightness-110">Request a Consultation</a>
+      </div>
+    </section>
+
+    <!-- ============ OUR STORY ============ -->
+    <!-- Each block = text + picture. To use a real photo, upload it to assets/ and change the img src (e.g. assets/story-1.jpg). -->
+    <section id="story" class="bg-white py-16 md:py-20">
+      <div class="container-site">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="eyebrow" data-reveal>Our Story</p>
+          <h2 class="h-display mt-2 text-3xl font-bold md:text-4xl" data-reveal>Our family&rsquo;s bookkeeping story</h2>
+        </div>
+        <div class="mt-12 space-y-14 md:space-y-16">
+          <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+            <div data-reveal>
+              <span class="inline-block rounded-full bg-secondary px-3 py-1 text-sm font-bold text-ink">2000</span>
+              <p class="mt-4 text-lg leading-relaxed text-muted-foreground">From handwritten ledgers to today&rsquo;s bookkeeping tools, the way we work has changed&mdash;but attention to the details has always mattered. Our family&rsquo;s bookkeeping story began in 2000, when Arnulfo, a CPA licensed in the Philippines, helped small and medium-sized businesses with bookkeeping and tax preparation. Cecilia, who also has an accounting background, worked alongside him, recording transactions, organizing receipts, maintaining client files, and handling day-to-day tasks.</p>
+            </div>
+            <img src="assets/story-1.svg" alt="Open ledger book with pen and calculator" width="600" height="450" loading="lazy" class="w-full rounded-2xl border border-border shadow-sm" data-reveal="zoom">
+          </div>
+          <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+            <div data-reveal class="md:order-2">
+              <span class="inline-block rounded-full bg-secondary px-3 py-1 text-sm font-bold text-ink">2022</span>
+              <p class="mt-4 text-lg leading-relaxed text-muted-foreground">After moving to the United States, we paused our work while adjusting to a new life. Around 2022, we began helping clients here again. In 2026, we formally established AC Ledger Solutions.</p>
+            </div>
+            <img src="assets/story-2.svg" alt="A journey from one home to a new one" width="600" height="450" loading="lazy" class="w-full rounded-2xl border border-border shadow-sm" data-reveal="zoom">
+          </div>
+          <div class="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+            <div data-reveal>
+              <span class="inline-block rounded-full bg-secondary px-3 py-1 text-sm font-bold text-ink">Today</span>
+              <p class="mt-4 text-lg leading-relaxed text-muted-foreground">Today, AC Ledger Solutions supports individuals and small businesses with bookkeeping, payroll, and tax preparation.</p>
+            </div>
+            <img src="assets/story-3.svg" alt="Laptop showing growth chart with checkmark" width="600" height="450" loading="lazy" class="w-full rounded-2xl border border-border shadow-sm" data-reveal="zoom">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -172,42 +208,48 @@
           <h2 class="h-display mt-2 text-3xl font-bold text-white! md:text-4xl" data-reveal>How we can help</h2>
           <p class="mt-4 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg" data-reveal style="--d:80ms">From everyday bookkeeping to tax season, payroll and QuickBooks training, AC Ledger Solutions gives small businesses and individuals dependable financial support in one place. Choose the service you need, or contact us and we will help you find the right fit.</p>
         </div>
-        <!-- Six service blocks. Edit the title/description text; keep the "Contact us for a quote" link. No prices. -->
+        <!-- Seven service blocks. Edit the title/description text; keep the "Contact us for a quote" link. No prices. -->
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:0ms">
             <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg></span>
-            <h3 class="mt-4 font-display text-lg font-bold text-white">Bookkeeping &amp; Cleanup Projects</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Ongoing bookkeeping to keep your records current, plus cleanup of past records so you can get back on track.</p>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Bookkeeping &amp; Reconciliation</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Monthly bookkeeping, bank and credit card reconciliations, accounts payable and receivable support, invoicing, payment posting, and financial reporting.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:80ms">
-            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2zM14 2v6h6M16 13H8M16 17H8"/></svg></span>
-            <h3 class="mt-4 font-display text-lg font-bold text-white">Tax Preparation</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Preparation and filing of individual and business tax returns, done accurately and on time.</p>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Payroll Processing</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Payroll processing and payroll recordkeeping support for small businesses.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:160ms">
-            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
-            <h3 class="mt-4 font-display text-lg font-bold text-white">Payroll Processing</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Payroll processing and payroll tax support for your employees.</p>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2zM14 2v6h6M16 13H8M16 17H8"/></svg></span>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Tax Preparation</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Tax return preparation for individuals and small businesses.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:0ms">
-            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l4-4 4 4 5-6"/></svg></span>
-            <h3 class="mt-4 font-display text-lg font-bold text-white">Financial Reports</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Clear financial reports that show how your business is really doing.</p>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/></svg></span>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Bookkeeping Cleanup</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Quarterly, year-end, and catch-up cleanup to organize and update your books.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:80ms">
             <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM4 10h16M9 5v14"/></svg></span>
             <h3 class="mt-4 font-display text-lg font-bold text-white">QuickBooks Setup &amp; Training</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">QuickBooks set up the right way, with training so you and your team feel confident using it.</p>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">QuickBooks setup and training to help you use it for your business.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:160ms">
-            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-            <h3 class="mt-4 font-display text-lg font-bold text-white">Inventory Count &amp; Notarial Services</h3>
-            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Inventory count support for your business, and notary services when you need a document notarized.</p>
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12M3.29 7 12 12l8.71-5M7.5 4.27l9 5.15"/></svg></span>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Inventory Count Support</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">Assistance with inventory counts and organizing inventory records.</p>
+            <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
+          </div>
+          <div class="flex flex-col rounded-xl border border-white/15 bg-white/[.07] p-6 shadow-sm backdrop-blur-sm card-hover" data-reveal style="--d:0ms">
+            <span class="svc-icon flex h-11 w-11 items-center justify-center rounded-lg bg-[#a5a9b6] text-primary"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77zM14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-3-3c-1.66 0-3 1-3 3s1 2 1 3.5V13"/></svg></span>
+            <h3 class="mt-4 font-display text-lg font-bold text-white">Notary Services</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-white/70">In-person and electronic notarization for eligible documents.</p>
             <a href="#contact" class="mt-4 text-sm font-semibold text-[#a9bcf7] link-underline">Contact us for a quote</a>
           </div>
           </div>
@@ -255,7 +297,7 @@
               <div class="fx grid gap-2 sm:col-span-2" style="--i:4"><label for="service" class="text-sm font-medium">Service you’re interested in <span class="text-red-600" aria-hidden="true">*</span></label>
                 <select id="service" name="service" required class="h-10 rounded-md border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
                   <option value="" disabled selected>Choose one</option>
-                  <option>Bookkeeping &amp; Cleanup Projects</option><option>Tax Preparation</option><option>Payroll Processing</option><option>Financial Reports</option><option>QuickBooks Setup &amp; Training</option><option>Inventory Count &amp; Notarial Services</option><option>Not sure yet</option>
+                  <option>Bookkeeping &amp; Reconciliation</option><option>Payroll Processing</option><option>Tax Preparation</option><option>Bookkeeping Cleanup</option><option>QuickBooks Setup &amp; Training</option><option>Inventory Count Support</option><option>Notary Services</option><option>Not sure yet</option>
                 </select></div>
               <div class="fx grid gap-2 sm:col-span-2" style="--i:5"><label for="message" class="text-sm font-medium">How can we help? <span class="text-red-600" aria-hidden="true">*</span></label>
                 <textarea id="message" name="message" rows="5" required maxlength="2000" class="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"></textarea></div>
@@ -275,6 +317,7 @@
               <h3 class="h-display mt-6 text-2xl font-bold sm:text-3xl">Thanks<span id="thanks-name"></span>. We got it.</h3>
               <p id="thanks-email" class="mx-auto mt-3 max-w-md text-base leading-relaxed text-muted-foreground" hidden></p>
               <p class="mx-auto mt-2 max-w-md text-base leading-relaxed text-muted-foreground">We will reply within one business day.</p>
+              <p class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">Prefer to talk now? Reach us directly at <a href="tel:+17736983538" class="font-semibold text-ink link-underline">(773) 698-3538</a> or <a href="mailto:charles@acledgers.com" class="font-semibold text-ink link-underline">charles@acledgers.com</a>.</p>
               <button type="button" id="thanks-again" class="mt-7 rounded-full border border-input bg-white px-6 py-3 text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:shadow-md">Send another inquiry</button>
             </div>
           </div>
@@ -293,19 +336,20 @@
           <span class="flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-primary ring-1 ring-white/20"><img src="assets/logo-mark.png" alt="AC Ledger Solutions logo" class="h-7 w-auto"></span>
           <span class="font-bold leading-tight text-white" style="font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;letter-spacing:.02em">AC Ledger Solutions</span>
         </a>
-        <p class="mt-5 max-w-[17rem] text-[15px] leading-relaxed">Bookkeeping, tax, payroll and advisory services for small businesses and professionals.</p>
+        <p class="mt-5 max-w-[17rem] text-[15px] leading-relaxed">Bookkeeping, payroll, and tax preparation for individuals and small businesses.</p>
       </div>
 
       <!-- Services -->
       <div data-reveal style="--d:90ms">
         <h4 class="text-sm font-bold uppercase tracking-[.12em] text-white">Services</h4>
         <ul class="footer-links mt-5 space-y-3 text-[15px]">
-          <li><a href="#services" class="transition-colors hover:text-white link-underline">Bookkeeping &amp; Cleanup Projects</a></li>
-          <li><a href="#services" class="transition-colors hover:text-white link-underline">Tax Preparation</a></li>
+          <li><a href="#services" class="transition-colors hover:text-white link-underline">Bookkeeping &amp; Reconciliation</a></li>
           <li><a href="#services" class="transition-colors hover:text-white link-underline">Payroll Processing</a></li>
-          <li><a href="#services" class="transition-colors hover:text-white link-underline">Financial Reports</a></li>
+          <li><a href="#services" class="transition-colors hover:text-white link-underline">Tax Preparation</a></li>
+          <li><a href="#services" class="transition-colors hover:text-white link-underline">Bookkeeping Cleanup</a></li>
           <li><a href="#services" class="transition-colors hover:text-white link-underline">QuickBooks Setup &amp; Training</a></li>
-          <li><a href="#services" class="transition-colors hover:text-white link-underline">Inventory Count &amp; Notarial Services</a></li>
+          <li><a href="#services" class="transition-colors hover:text-white link-underline">Inventory Count Support</a></li>
+          <li><a href="#services" class="transition-colors hover:text-white link-underline">Notary Services</a></li>
         </ul>
       </div>
 
@@ -344,7 +388,7 @@
 </div>
 <button id="back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 z-40 flex h-11 w-11 translate-y-4 items-center justify-center rounded-full bg-primary text-primary-foreground opacity-0 shadow-lg transition-all duration-300 pointer-events-none">↑</button>
 <!-- ENQUIRIES: Apps Script web app URL (ends with /exec). See docs/SETUP-GOOGLE-SHEET.md -->
-<script>window.AC_ENQUIRY_WEBHOOK = "https://script.google.com/macros/s/AKfycbwVPMYgjqP_inkUvZ7Ll7m96h8yvk3mKMY5JLWqUH4BvJ6DbXluuGlu6G8G7eKck6dZ8w/exec";</script>
+<script>window.AC_ENQUIRY_WEBHOOK = "https://script.google.com/macros/s/AKfycbz5CNN-j4gcsvxkGmDH9jEeWoo3hRsUqX5KB7tG0vjEfjWKVEoQD45AzYKtDODU0JuHrQ/exec";</script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="js/three-scenes.js"></script>
 <script src="js/form.js?v=20261111e"></script>
